@@ -1,0 +1,19 @@
+{
+    "name": "laswitchtech/php-logger",
+    "description": "Easy to use logging library for PHP",
+    "type": "library",
+    "license": "GPL-3.0-only",
+    "autoload": {
+        "psr-4": {
+            "Laswitchtech\\phpLogger\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Louis Ouellet",
+            "email": "louis_ouellet@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
