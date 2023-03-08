@@ -192,7 +192,7 @@ class phpLogger {
       }
     }
 
-    // Write Line to file
+    // Write Line to logFile
     file_put_contents($logFile, $logLine, FILE_APPEND);
 
     // Write Line to prompt

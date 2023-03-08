@@ -25,7 +25,7 @@ Sure!
 This software is distributed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) license. Please read [LICENSE](LICENSE) for information on the software availability and distribution.
 
 ## Requirements
-* PHP >= 8.2
+* PHP >= 7.3
 
 ## Security
 Please disclose any vulnerabilities found responsibly – report security issues to the maintainers privately.
@@ -127,7 +127,7 @@ class MyLogger extends phpLogger {
     }
 
     file_put_contents($logFile, $logLine, FILE_APPEND);
-    
+
     if(defined('STDIN')){
       echo $logLine;
     }
