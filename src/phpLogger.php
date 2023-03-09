@@ -17,7 +17,8 @@ class phpLogger {
 
   private $logFiles = []; // An array to hold all added log files
   private $logFile = 'default'; // The name of the current log file to write logs to
-  private $logRotation = true; // Whether log file rotation is enabled or not
+  private $logRotation = false; // Whether log file rotation is enabled or not
+  private $logIP = false; // Whether to log ip addresses or not
 
   /**
    * Create a new phpLogger instance.
@@ -56,19 +57,62 @@ class phpLogger {
   }
 
   /**
-   * Enable or disable log file rotation.
+   * Enable or disable log file options.
    *
+   * @param  string  $option
    * @param  bool  $bool
    * @return void
    * @throws Exception
    */
-  public function rotate($bool = true){
-    if(is_bool($bool)){
-      $this->logRotation = $bool;
+  public function config($option, $bool){
+    if(is_string($option)){
+      if(is_bool($bool)){
+        switch($option){
+          case"rotation":
+            $this->logRotation = $bool;
+            break;
+          case"ip":
+            $this->logIP = $bool;
+            break;
+          default:
+            throw new Exception("unable to configure $option.");
+            break;
+        }
+      } else{
+        throw new Exception("2nd argument must be a boolean.");
+      }
     } else{
-      throw new Exception("Argument must be boolean.");
+      throw new Exception("1st argument must be as string.");
     }
   }
+
+  /**
+   * Retrieve the client IP address.
+   *
+   * @return string $ipaddress
+   */
+	public function ip(){
+	  $ipaddress = '';
+	  if(getenv('HTTP_CLIENT_IP')){
+	    $ipaddress = getenv('HTTP_CLIENT_IP');
+	  } elseif(getenv('HTTP_X_FORWARDED_FOR')){
+	    $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+	  } elseif(getenv('HTTP_X_FORWARDED')){
+	    $ipaddress = getenv('HTTP_X_FORWARDED');
+	  } elseif(getenv('HTTP_FORWARDED_FOR')){
+	    $ipaddress = getenv('HTTP_FORWARDED_FOR');
+	  } elseif(getenv('HTTP_FORWARDED')){
+	    $ipaddress = getenv('HTTP_FORWARDED');
+	  } elseif(getenv('REMOTE_ADDR')){
+	    $ipaddress = getenv('REMOTE_ADDR');
+    } elseif(defined('STDIN')){
+      $ipaddress = 'LOCALHOST';
+	  } else {
+	    $ipaddress = 'UNKNOWN';
+		}
+    if(in_array($ipaddress,['127.0.0.1','127.0.1.1','::1'])){ $ipaddress = 'LOCALHOST'; }
+	  return $ipaddress;
+	}
 
   /**
    * Add a new log file.
@@ -180,8 +224,14 @@ class phpLogger {
     // Timestamp
     $timestamp = date("Y-m-d H:i:s");
 
+    // Check if IPs should be logged
+    $ip = '';
+    if($this->logIP){
+      $ip = '[' . $this->ip() . ']';
+    }
+
     // Format Line
-    $logLine = "[$timestamp][$level]$classTrace($file:$line) $message" . PHP_EOL;
+    $logLine = "[$timestamp]$ip[$level]$classTrace($file:$line) $message" . PHP_EOL;
 
     // Check if logFile should be rotated
     if(is_file($logFile)){

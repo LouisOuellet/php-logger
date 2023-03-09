@@ -14,6 +14,7 @@ The `phpLogger` class is a PHP package for logging messages to files. It support
   - Rotates log files to manage file sizes.
   - Provides the ability to add, set, and list log files.
   - Supports logging to multiple files.
+  - Supports logging ip addresses.
 
 ## Why you might need it?
 Logging is an essential part of debugging and monitoring software applications. It can help developers identify issues and bugs, as well as provide insight into how users are interacting with the software. The `phpLogger` class provides a simple and flexible way to log messages to files in PHP applications. It can help developers quickly set up logging functionality and manage log files, making it an essential tool for any PHP project.
