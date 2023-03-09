@@ -200,4 +200,24 @@ class phpLogger {
       echo $logLine;
     }
   }
+
+  public function debug($message, $logName = null){
+    return $this->log($message, $level = self::LEVEL_DEBUG, $logName);
+  }
+
+  public function info($message, $logName = null){
+    return $this->log($message, $level = self::LEVEL_INFO, $logName);
+  }
+
+  public function success($message, $logName = null){
+    return $this->log($message, $level = self::LEVEL_SUCCESS, $logName);
+  }
+
+  public function warning($message, $logName = null){
+    return $this->log($message, $level = self::LEVEL_WARNING, $logName);
+  }
+
+  public function error($message, $logName = null){
+    return $this->log($message, $level = self::LEVEL_ERROR, $logName);
+  }
 }
