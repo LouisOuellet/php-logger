@@ -20,7 +20,7 @@ class phpLogger {
   private $logRotation = true; // Whether log file rotation is enabled or not
 
   /**
-   * Create a new logger instance.
+   * Create a new phpLogger instance.
    *
    * @param  string|array|null  $logFile
    * @return void
