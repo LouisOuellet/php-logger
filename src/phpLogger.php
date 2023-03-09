@@ -212,22 +212,57 @@ class phpLogger {
     }
   }
 
+  /**
+   * Write a level DEBUG log message to the current log file.
+   *
+   * @param  mixed  $message
+   * @param  string|null  $logName
+   * @return void
+   */
   public function debug($message, $logName = null){
     return $this->log($message, $level = self::LEVEL_DEBUG, $logName);
   }
 
+  /**
+   * Write a level INFO log message to the current log file.
+   *
+   * @param  mixed  $message
+   * @param  string|null  $logName
+   * @return void
+   */
   public function info($message, $logName = null){
     return $this->log($message, $level = self::LEVEL_INFO, $logName);
   }
 
+  /**
+   * Write a level SUCCESS log message to the current log file.
+   *
+   * @param  mixed  $message
+   * @param  string|null  $logName
+   * @return void
+   */
   public function success($message, $logName = null){
     return $this->log($message, $level = self::LEVEL_SUCCESS, $logName);
   }
 
+  /**
+   * Write a level WARNING log message to the current log file.
+   *
+   * @param  mixed  $message
+   * @param  string|null  $logName
+   * @return void
+   */
   public function warning($message, $logName = null){
     return $this->log($message, $level = self::LEVEL_WARNING, $logName);
   }
 
+  /**
+   * Write a level ERROR log message to the current log file.
+   *
+   * @param  mixed  $message
+   * @param  string|null  $logName
+   * @return void
+   */
   public function error($message, $logName = null){
     return $this->log($message, $level = self::LEVEL_ERROR, $logName);
   }
