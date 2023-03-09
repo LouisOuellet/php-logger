@@ -158,9 +158,10 @@ class phpLogger {
 
     // Backtrace
     $trace = debug_backtrace();
-    $caller = isset($trace[1]) ? $trace[1] : $trace[0];
+    $caller = count($trace) > 1 ? $trace[1] : $trace[0];
     $file = isset($caller['file']) ? $caller['file'] : '';
     $line = isset($caller['line']) ? $caller['line'] : '';
+    $caller = count($trace) > 1 ? end($trace) : current($trace);
     $class = isset($caller['class']) && count($trace) > 1 ? $caller['class'] : '';
     $function = isset($caller['function']) && count($trace) > 1 ? $caller['function'] : '';
 
@@ -173,14 +174,14 @@ class phpLogger {
       $classTrace .= $function;
     }
     if($classTrace != ''){
-      $classTrace = " [$classTrace]";
+      $classTrace = "[$classTrace]";
     }
 
     // Timestamp
     $timestamp = date("Y-m-d H:i:s");
 
     // Format Line
-    $logLine = "[$timestamp] [$level]$classTrace ($file:$line) $message" . PHP_EOL;
+    $logLine = "[$timestamp][$level]$classTrace($file:$line) $message" . PHP_EOL;
 
     // Check if logFile should be rotated
     if(is_file($logFile)){
