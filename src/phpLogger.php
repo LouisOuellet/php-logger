@@ -29,22 +29,27 @@ class phpLogger {
   public function __construct($logFile = null){
     if($logFile != null){
       if(is_string($logFile)){
+
         // If $logFile is a string, add it as a default log file with the name 'default'
         $this->add($this->logFile, $logFile);
       } else {
         if(is_array($logFile)){
+
           // If $logFile is an array, add each key-value pair as a log file
           foreach($logFile as $name => $file){
             $this->add($name, $file);
           }
+
           // Set the current log file to the first added log file
           $this->logFile = array_key_first($this->logFiles);
         } else {
+
           // If $logFile is neither a string nor an array, throw an exception
           throw new Exception("Could not configure phpLogger. Invalid argument.");
         }
       }
     } else {
+
       // If $logFile is null, add a default log file with the name 'default' and the filename 'default.log'
       $this->add($this->logFile, $this->logFile . '.log');
     }
@@ -190,6 +195,11 @@ class phpLogger {
         $fileName = $logFile . '.' . strtotime($logDate->format("Y-m-d"));
         rename($logFile, $fileName);
       }
+    }
+
+    // Create the directory recursively
+    if(!is_dir(dirname($logFile))){
+      mkdir(dirname($logFile), 0777, true);
     }
 
     // Write Line to logFile
