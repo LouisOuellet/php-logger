@@ -236,7 +236,7 @@ class phpLogger {
     $logLine .= "[$level]";
     $logLine .= $classTrace;
     $logLine .= "($file:$line)";
-    $logLine .= " $message" . PHP_EOL;
+    $logLine .= " $message";
 
     // Check if logFile should be rotated
     if(is_file($logFile)){
@@ -259,11 +259,11 @@ class phpLogger {
     }
 
     // Write Line to logFile
-    file_put_contents($logFile, trim($logLine), FILE_APPEND);
+    file_put_contents($logFile, trim($logLine) . PHP_EOL, FILE_APPEND);
 
     // Write Line to prompt
     if(defined('STDIN')){
-      echo trim($logLine);
+      echo trim($logLine) . PHP_EOL;
     }
   }
 
