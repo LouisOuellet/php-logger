@@ -259,11 +259,11 @@ class phpLogger {
     }
 
     // Write Line to logFile
-    file_put_contents($logFile, $logLine, FILE_APPEND);
+    file_put_contents($logFile, trim($logLine), FILE_APPEND);
 
     // Write Line to prompt
     if(defined('STDIN')){
-      echo $logLine;
+      echo trim($logLine);
     }
   }
 
