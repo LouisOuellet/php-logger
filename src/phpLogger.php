@@ -231,7 +231,12 @@ class phpLogger {
     }
 
     // Format Line
-    $logLine = "[$timestamp]$ip[$level]$classTrace($file:$line) $message" . PHP_EOL;
+    $logLine = "[$timestamp]";
+    $logLine .= $ip;
+    $logLine .= "[$level]";
+    $logLine .= $classTrace;
+    $logLine .= "($file:$line)";
+    $logLine .= " $message" . PHP_EOL;
 
     // Check if logFile should be rotated
     if(is_file($logFile)){
