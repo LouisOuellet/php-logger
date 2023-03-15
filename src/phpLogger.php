@@ -272,7 +272,7 @@ class phpLogger {
     $logLine .= " $message";
 
     // Check if logFile should be rotated
-    if(is_file($logFile)){
+    if($this->logRotation && is_file($logFile)){
 
       // Get dates
       $today = new DateTime();
