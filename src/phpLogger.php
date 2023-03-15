@@ -9,16 +9,25 @@ use Exception;
 
 class phpLogger {
 
-  const LEVEL_DEBUG = 'DEBUG';
-  const LEVEL_INFO = 'INFO';
-  const LEVEL_SUCCESS = 'SUCCESS';
-  const LEVEL_WARNING = 'WARNING';
-  const LEVEL_ERROR = 'ERROR';
+  const DEBUG_LABEL = 'DEBUG';
+  const INFO_LABEL = 'INFO';
+  const SUCCESS_LABEL = 'SUCCESS';
+  const WARNING_LABEL = 'WARNING';
+  const ERROR_LABEL = 'ERROR';
+  const DEBUG_LEVEL = 5;
+  const INFO_LEVEL = 4;
+  const SUCCESS_LEVEL = 3;
+  const WARNING_LEVEL = 2;
+  const ERROR_LEVEL = 1;
+
+  // Levels
+  private $Levels = []; // Levels of logging
 
   private $logFiles = []; // An array to hold all added log files
   private $logFile = 'default'; // The name of the current log file to write logs to
   private $logRotation = false; // Whether log file rotation is enabled or not
   private $logIP = false; // Whether to log ip addresses or not
+  private $logLevel = 1; // Level of logging to do
 
   /**
    * Create a new phpLogger instance.
@@ -28,6 +37,15 @@ class phpLogger {
    * @throws Exception
    */
   public function __construct($logFile = null){
+
+    // Generate Levels
+    $this->Levels[self::DEBUG_LEVEL] = self::DEBUG_LABEL;
+    $this->Levels[self::INFO_LEVEL] = self::INFO_LABEL;
+    $this->Levels[self::SUCCESS_LEVEL] = self::SUCCESS_LABEL;
+    $this->Levels[self::WARNING_LEVEL] = self::WARNING_LABEL;
+    $this->Levels[self::ERROR_LEVEL] = self::ERROR_LABEL;
+
+    // Configuring logFile
     if($logFile != null){
       if(is_string($logFile)){
 
@@ -60,26 +78,37 @@ class phpLogger {
    * Enable or disable log file options.
    *
    * @param  string  $option
-   * @param  bool  $bool
+   * @param  bool|int  $value
    * @return void
    * @throws Exception
    */
-  public function config($option, $bool){
+  public function config($option, $value){
     if(is_string($option)){
-      if(is_bool($bool)){
-        switch($option){
-          case"rotation":
-            $this->logRotation = $bool;
-            break;
-          case"ip":
-            $this->logIP = $bool;
-            break;
-          default:
-            throw new Exception("unable to configure $option.");
-            break;
-        }
-      } else{
-        throw new Exception("2nd argument must be a boolean.");
+      switch($option){
+        case"rotation":
+          if(is_bool($value)){
+            $this->logRotation = $value;
+          } else{
+            throw new Exception("2nd argument must be a boolean.");
+          }
+          break;
+        case"ip":
+          if(is_bool($value)){
+            $this->logIP = $value;
+          } else{
+            throw new Exception("2nd argument must be a boolean.");
+          }
+          break;
+        case"level":
+          if(is_int($value)){
+            $this->logLevel = $value;
+          } else{
+            throw new Exception("2nd argument must be an integer.");
+          }
+          break;
+        default:
+          throw new Exception("unable to configure $option.");
+          break;
       }
     } else{
       throw new Exception("1st argument must be as string.");
@@ -179,12 +208,16 @@ class phpLogger {
    * @param  string|null  $logName
    * @return void
    */
-  public function log($message, $level = self::LEVEL_INFO, $logName = null){
+  public function log($message, $level = 4, $logName = null){
 
     // Validate log level
-    if(!in_array($level,['DEBUG','INFO','SUCCESS','WARNING','ERROR'])){
-      // If the specified log level is invalid, set it to 'DEBUG'
-      $level = self::LEVEL_DEBUG;
+    if(!in_array($level,[self::DEBUG_LEVEL,self::INFO_LEVEL,self::SUCCESS_LEVEL,self::WARNING_LEVEL,self::ERROR_LEVEL])){
+      // If the specified log level is invalid, do not log anything
+      return null;
+    }
+    if($level > $this->logLevel){
+      // If the specified log level is invalid, do not log anything
+      return null;
     }
 
     // Sanitize message
@@ -233,7 +266,7 @@ class phpLogger {
     // Format Line
     $logLine = "[$timestamp]";
     $logLine .= $ip;
-    $logLine .= "[$level]";
+    $logLine .= "[" . $this->Levels[$level] . "]";
     $logLine .= $classTrace;
     $logLine .= "($file:$line)";
     $logLine .= " $message";
@@ -275,7 +308,7 @@ class phpLogger {
    * @return void
    */
   public function debug($message, $logName = null){
-    return $this->log($message, $level = self::LEVEL_DEBUG, $logName);
+    return $this->log($message, $level = self::DEBUG_LEVEL, $logName);
   }
 
   /**
@@ -286,7 +319,7 @@ class phpLogger {
    * @return void
    */
   public function info($message, $logName = null){
-    return $this->log($message, $level = self::LEVEL_INFO, $logName);
+    return $this->log($message, $level = self::INFO_LEVEL, $logName);
   }
 
   /**
@@ -297,7 +330,7 @@ class phpLogger {
    * @return void
    */
   public function success($message, $logName = null){
-    return $this->log($message, $level = self::LEVEL_SUCCESS, $logName);
+    return $this->log($message, $level = self::SUCCESS_LEVEL, $logName);
   }
 
   /**
@@ -308,7 +341,7 @@ class phpLogger {
    * @return void
    */
   public function warning($message, $logName = null){
-    return $this->log($message, $level = self::LEVEL_WARNING, $logName);
+    return $this->log($message, $level = self::WARNING_LEVEL, $logName);
   }
 
   /**
@@ -319,6 +352,6 @@ class phpLogger {
    * @return void
    */
   public function error($message, $logName = null){
-    return $this->log($message, $level = self::LEVEL_ERROR, $logName);
+    return $this->log($message, $level = self::ERROR_LEVEL, $logName);
   }
 }
