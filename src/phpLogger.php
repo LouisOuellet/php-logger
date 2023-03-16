@@ -75,7 +75,7 @@ class phpLogger {
   }
 
   /**
-   * Enable or disable log file options.
+   * Configure Library.
    *
    * @param  string  $option
    * @param  bool|int  $value
