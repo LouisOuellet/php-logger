@@ -113,6 +113,8 @@ class phpLogger {
     } else{
       throw new Exception("1st argument must be as string.");
     }
+
+    return $this;
   }
 
   /**
