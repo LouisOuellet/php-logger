@@ -199,7 +199,7 @@ class phpLogger {
 
       // Set Path
       if(!is_string($Path)){
-        $Path = $this->RootPath . self::ConfigDir . '/' . $Name . self::Extension;
+        $Path = $this->RootPath . self::Dir . '/' . $Name . self::Extension;
       }
 
       // Check if it doesn't exist
