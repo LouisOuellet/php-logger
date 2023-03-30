@@ -23,6 +23,9 @@ class phpLogger {
   const WARNING_LEVEL = 2;
   const ERROR_LEVEL = 1;
 
+  const Extension = '.log';
+  const Dir = '/log';
+
   // Levels
   private $Levels = []; // Levels of logging
 
@@ -31,6 +34,7 @@ class phpLogger {
   private $logRotation = false; // Whether log file rotation is enabled or not
   private $logIP = false; // Whether to log ip addresses or not
   private $logLevel = 1; // Level of logging to do
+  private $RootPath = null;
 
   // Configurator
   private $Configurator = null;
@@ -43,6 +47,19 @@ class phpLogger {
    * @throws Exception
    */
   public function __construct($logFile = null){
+
+    // Set RootPath according to this file
+    $this->RootPath = realpath(getcwd());
+
+    // If server document_root is available, use it instead
+    if(isset($_SERVER['DOCUMENT_ROOT']) && !empty($_SERVER['DOCUMENT_ROOT'])){
+      $this->RootPath = dirname($_SERVER['DOCUMENT_ROOT']);
+    }
+
+    // If constant ROOT_PATH has been set
+    if(defined("ROOT_PATH")){
+      $this->RootPath = ROOT_PATH;
+    }
 
     // Initialize Configurator
     $this->Configurator = new phpConfigurator('logger');
@@ -67,7 +84,7 @@ class phpLogger {
       if(is_string($logFile)){
 
         // If $logFile is a string, add it as a default log file with the name 'default'
-        $this->add($this->logFile, $logFile);
+        $this->add($logFile);
       } else {
         if(is_array($logFile)){
 
@@ -175,16 +192,34 @@ class phpLogger {
    * @return void
    * @throws Exception
    */
-  public function add($logName, $logFile){
-    if(is_string($logName) && is_string($logFile)){
-      if(!isset($this->logFiles[$logName])){
-        $this->logFiles[$logName] = $logFile;
-      } else {
-        throw new Exception("This log file already exist.");
+  public function add($Name, $Path = null){
+
+    // If not already saved, add File in the list
+    if(!isset($this->logFiles[$Name])){
+
+      // Set Path
+      if(!is_string($Path)){
+        $Path = $this->RootPath . self::ConfigDir . '/' . $Name . self::Extension;
       }
-    } else {
-      throw new Exception("Both arguments must be strings.");
+
+      // Check if it doesn't exist
+      if(!is_file($Path)){
+
+        // Create the directory recursively
+        if(!is_dir(dirname($Path))){
+          mkdir(dirname($Path), 0777, true);
+        }
+
+        // Create File
+        file_put_contents($Path, PHP_EOL);
+      }
+
+      // Save File
+      $this->logFiles[$Name] = $Path;
     }
+
+    // Return
+    return $this;
   }
 
   /**
