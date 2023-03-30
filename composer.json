@@ -15,5 +15,7 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "laswitchtech/php-configurator": "^1.0"
+    }
 }

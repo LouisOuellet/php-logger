@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "23f60a592641672a777fade7637371ef",
+    "packages": [
+        {
+            "name": "laswitchtech/php-configurator",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LouisOuellet/php-configurator.git",
+                "reference": "409894b736933a3fc7bbb3ba6adb96a846c8ed1a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LouisOuellet/php-configurator/zipball/409894b736933a3fc7bbb3ba6adb96a846c8ed1a",
+                "reference": "409894b736933a3fc7bbb3ba6adb96a846c8ed1a",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LaswitchTech\\phpConfigurator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Louis Ouellet",
+                    "email": "louis_ouellet@hotmail.com"
+                }
+            ],
+            "description": "Configurator Library for PHP Applications",
+            "support": {
+                "issues": "https://github.com/LouisOuellet/php-configurator/issues",
+                "source": "https://github.com/LouisOuellet/php-configurator/tree/v1.0.1"
+            },
+            "time": "2023-03-30T18:58:12+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

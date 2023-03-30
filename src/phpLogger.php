@@ -3,6 +3,9 @@
 //Declaring namespace
 namespace LaswitchTech\phpLogger;
 
+//Import phpConfigurator class into the global namespace
+use LaswitchTech\phpConfigurator\phpConfigurator;
+
 // Importing Dependencies
 use DateTime;
 use Exception;
@@ -29,6 +32,9 @@ class phpLogger {
   private $logIP = false; // Whether to log ip addresses or not
   private $logLevel = 1; // Level of logging to do
 
+  // Configurator
+  private $Configurator = null;
+
   /**
    * Create a new phpLogger instance.
    *
@@ -37,6 +43,17 @@ class phpLogger {
    * @throws Exception
    */
   public function __construct($logFile = null){
+
+    // Initialize Configurator
+    $this->Configurator = new phpConfigurator('logger');
+
+    // Retrieve Log Level
+    $logLevel = $this->Configurator->get('logger','level');
+
+    // Update Log Level
+    if($logLevel){
+      $this->logLevel = intval($logLevel);
+    }
 
     // Generate Levels
     $this->Levels[self::DEBUG_LEVEL] = self::DEBUG_LABEL;
@@ -101,7 +118,12 @@ class phpLogger {
           break;
         case"level":
           if(is_int($value)){
+
+            // Set Log Level
             $this->logLevel = $value;
+
+            // Save to Configurator
+            $this->Configurator->set('logger','level', intval($value));
           } else{
             throw new Exception("2nd argument must be an integer.");
           }
