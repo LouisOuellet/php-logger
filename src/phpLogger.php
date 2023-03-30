@@ -187,8 +187,8 @@ class phpLogger {
   /**
    * Add a new log file.
    *
-   * @param  string  $logName
-   * @param  string  $logFile
+   * @param  string  $Name
+   * @param  string  $Path
    * @return void
    * @throws Exception
    */
@@ -219,6 +219,31 @@ class phpLogger {
 
       // Set as current file
       $this->logFile = $Name;
+    }
+
+    // Return
+    return $this;
+  }
+
+  /**
+   * Clear a log file.
+   *
+   * @param  string  $Name
+   * @return void
+   * @throws Exception
+   */
+  public function clear($Name = null){
+
+    // if Name is not provided, clear the currently selected log
+    if(!$Name){
+      $Name = $this->logFile;
+    }
+
+    // If not already saved, add File in the list
+    if(isset($this->logFiles[$Name])){
+
+      // Clear File
+      file_put_contents($this->logFiles[$Name], PHP_EOL);
     }
 
     // Return
