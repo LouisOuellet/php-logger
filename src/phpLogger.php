@@ -64,13 +64,10 @@ class phpLogger {
     // Initialize Configurator
     $this->Configurator = new phpConfigurator('logger');
 
-    // Retrieve Log Level
-    $logLevel = $this->Configurator->get('logger','level');
-
-    // Update Log Level
-    if($logLevel){
-      $this->logLevel = intval($logLevel);
-    }
+    // Retrieve Log Settings
+    $this->logLevel = $this->Configurator->get('logger', 'level') ?: $this->logLevel;
+    $this->logIP = $this->Configurator->get('logger', 'ip') ?: $this->logIP;
+    $this->logRotation = $this->Configurator->get('logger', 'rotation') ?: $this->logRotation;
 
     // Generate Levels
     $this->Levels[self::DEBUG_LEVEL] = self::DEBUG_LABEL;
@@ -122,6 +119,9 @@ class phpLogger {
         case"rotation":
           if(is_bool($value)){
             $this->logRotation = $value;
+
+            // Save to Configurator
+            $this->Configurator->set('logger',$option, $value);
           } else{
             throw new Exception("2nd argument must be a boolean.");
           }
@@ -129,6 +129,9 @@ class phpLogger {
         case"ip":
           if(is_bool($value)){
             $this->logIP = $value;
+
+            // Save to Configurator
+            $this->Configurator->set('logger',$option, $value);
           } else{
             throw new Exception("2nd argument must be a boolean.");
           }
@@ -140,7 +143,7 @@ class phpLogger {
             $this->logLevel = $value;
 
             // Save to Configurator
-            $this->Configurator->set('logger','level', intval($value));
+            $this->Configurator->set('logger',$option, $value);
           } else{
             throw new Exception("2nd argument must be an integer.");
           }
