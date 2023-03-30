@@ -30,7 +30,7 @@ class phpLogger {
   private $Levels = []; // Levels of logging
 
   private $logFiles = []; // An array to hold all added log files
-  private $logFile = 'default'; // The name of the current log file to write logs to
+  private $logFile = null; // The name of the current log file to write logs to
   private $logRotation = false; // Whether log file rotation is enabled or not
   private $logIP = false; // Whether to log ip addresses or not
   private $logLevel = 1; // Level of logging to do
@@ -216,6 +216,9 @@ class phpLogger {
 
       // Save File
       $this->logFiles[$Name] = $Path;
+
+      // Set as current file
+      $this->logFile = $Name;
     }
 
     // Return
