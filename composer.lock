@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "laswitchtech/php-configurator",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LouisOuellet/php-configurator.git",
-                "reference": "409894b736933a3fc7bbb3ba6adb96a846c8ed1a"
+                "reference": "d8be4b6af351049584005adafa2c6dacb8548731"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LouisOuellet/php-configurator/zipball/409894b736933a3fc7bbb3ba6adb96a846c8ed1a",
-                "reference": "409894b736933a3fc7bbb3ba6adb96a846c8ed1a",
+                "url": "https://api.github.com/repos/LouisOuellet/php-configurator/zipball/d8be4b6af351049584005adafa2c6dacb8548731",
+                "reference": "d8be4b6af351049584005adafa2c6dacb8548731",
                 "shasum": ""
             },
             "type": "library",
@@ -39,9 +39,9 @@
             "description": "Configurator Library for PHP Applications",
             "support": {
                 "issues": "https://github.com/LouisOuellet/php-configurator/issues",
-                "source": "https://github.com/LouisOuellet/php-configurator/tree/v1.0.1"
+                "source": "https://github.com/LouisOuellet/php-configurator/tree/v1.0.2"
             },
-            "time": "2023-03-30T18:58:12+00:00"
+            "time": "2023-04-11T16:26:43+00:00"
         }
     ],
     "packages-dev": [],
